@@ -1,17 +1,16 @@
 
-id = "WebfishingSampleMod"
-name = "Webfishing Sample Mod"
-description = "This is a sample mod."
+id = "Eszenn.apManual"
+name = "Webfishing Archipelago Manual"
+description = "Reworks a number of features to work better for the Archipelago Manual"
 version = "1.0.0"
-homepage = "https://github.com/NotNite/WebfishingSampleMod"
-author = "You!"
+homepage = "https://github.com/Eszenn/Webfishing-AP-Manual/"
+author = "Eszenn"
 
 icon = "icon.png"
 readme = "README.md"
 
 [project]
-csharp = "./WebfishingSampleMod/WebfishingSampleMod.csproj"
-godot = "./project/project.godot"
+csharp = "./apManual/apManual.csproj"
 
 [[dependencies]]
 thunderstore_version = "NotNet-GDWeave-2.0.13"
