@@ -1,6 +1,6 @@
 ﻿using GDWeave;
 
-namespace WebfishingSampleMod;
+namespace apManual;
 
 public class Mod : IMod {
     public Config Config;
