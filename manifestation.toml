@@ -10,7 +10,7 @@ icon = "icon.png"
 readme = "README.md"
 
 [project]
-csharp = "./apManual/apManual.csproj"
+csharp = "./ArchipelagoTweaks/ArchipelagoTweaks.csproj"
 
 [[dependencies]]
 thunderstore_version = "NotNet-GDWeave-2.0.13"

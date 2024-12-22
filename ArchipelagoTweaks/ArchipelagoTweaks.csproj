@@ -5,6 +5,8 @@
         <Nullable>enable</Nullable>
         <AssemblySearchPaths>$(AssemblySearchPaths);$(GDWeavePath)/core</AssemblySearchPaths>
         <Version>1.0.0.0</Version>
+        <AssemblyName>ArchipelagoTweaks</AssemblyName>
+        <RootNamespace>ArchipelagoTweaks</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

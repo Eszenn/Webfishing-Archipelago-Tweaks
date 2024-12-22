@@ -1,0 +1,10 @@
+{
+  "Id": "Archipelago Tweaks",
+  "AssemblyPath": "ArchipelagoTweaks.dll",
+  "Metadata": {
+    "Name": "Archipelago Tweaks",
+    "Author": "Eszenn",
+    "Version": "1.0.0",
+    "Description": "Reworks parts of the game to work better for an Archipelago Manual."
+  }
+}
