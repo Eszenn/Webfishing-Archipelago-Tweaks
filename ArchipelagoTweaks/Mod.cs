@@ -16,6 +16,7 @@ public class Mod : IMod {
         modInterface.RegisterScriptMod(new ShopUnlockPatch());
         modInterface.RegisterScriptMod(new ItemPricePatch());
         modInterface.RegisterScriptMod(new CosmeticIconPatch());
+        modInterface.RegisterScriptMod(new JournalRequirementPatch());
     }
 
     public void Dispose() {

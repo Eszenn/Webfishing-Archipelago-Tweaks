@@ -41,7 +41,7 @@ public class LootTableGenerationPatch : IScriptMod
             { "ocean_opulent", ["fish_ocean_sawfish", "fish_ocean_wolffish", "fish_ocean_hammerhead_shark"] },
             { "ocean_glistening", ["fish_ocean_sea_turtle", "fish_ocean_squid", "fish_ocean_manowar", "fish_ocean_manta_ray"] }, 
             { "ocean_radiant", ["fish_ocean_greatwhiteshark"] },
-            { "ocean_alpha", ["fish_ocean_whale", "fish_ocean_coelacanth"] },
+            { "ocean_alpha", ["fish_ocean_whale", "fish_ocean_coalacanth"] },
             { "ocean_propserous", ["fish_ocean_golden_manta_ray", "wtrash_diamond"] },
             { "ocean_propserous_rain", ["fish_ocean_golden_manta_ray", "wtrash_diamond", "fish_rain_leedsichthys"] },
         };
@@ -78,6 +78,20 @@ public class LootTableGenerationPatch : IScriptMod
             t => t.Type is TokenType.OpAssign,
             t => t is IdentifierToken { Name: "new_table" },
             t => t.Type is TokenType.Newline
+        ]);
+
+        // for item in item_data.keys():\n
+        var itemWaiter = new MultiTokenWaiter([
+            t => t.Type is TokenType.CfFor,
+            t => t is IdentifierToken { Name: "item" },
+            t => t.Type is TokenType.OpIn,
+            t => t is IdentifierToken { Name: "item_data" },
+            t => t.Type is TokenType.Period,
+            t => t is IdentifierToken { Name: "keys" },
+            t => t.Type is TokenType.ParenthesisOpen,
+            t => t.Type is TokenType.ParenthesisClose,
+            t => t.Type is TokenType.Colon,
+            t => t.Type is TokenType.Newline,
         ]);
 
         foreach (var token in tokens)
@@ -128,8 +142,26 @@ public class LootTableGenerationPatch : IScriptMod
             else if (printWaiter.Check(token))
             {
                 yield return token;
-                
                 newlineConsumer.SetReady();
+            }
+            
+            else if (itemWaiter.Check(token))
+            {
+                yield return token;
+                
+                // item_data[item]["file"].loot_weight = 1
+                yield return new IdentifierToken("item_data");
+                yield return new Token(TokenType.BracketOpen);
+                yield return new IdentifierToken("item");
+                yield return new Token(TokenType.BracketClose);
+                yield return new Token(TokenType.BracketOpen);
+                yield return new ConstantToken(new StringVariant("file"));
+                yield return new Token(TokenType.BracketClose);
+                yield return new Token(TokenType.Period);
+                yield return new IdentifierToken("loot_weight");
+                yield return new Token(TokenType.OpAssign);
+                yield return new ConstantToken(new IntVariant(1));
+                yield return new Token(TokenType.Newline, 2);
             }
             
             else if (generationWaiter.Check(token))

@@ -87,7 +87,7 @@ public class BaitQualityPatch : IScriptMod
                 yield return new Token(TokenType.Comma);
                 yield return new ConstantToken(new StringVariant("max_tier"));
                 yield return new Token(TokenType.Colon);
-                yield return new ConstantToken(new IntVariant(1));
+                yield return new ConstantToken(new IntVariant(2));
                 yield return new Token(TokenType.Comma);
                 yield return new ConstantToken(new StringVariant("quality"));
                 yield return new Token(TokenType.Colon);
