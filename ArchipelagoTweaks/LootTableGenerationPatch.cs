@@ -31,8 +31,8 @@ public class LootTableGenerationPatch : IScriptMod
             { "lake_glistening", ["fish_lake_muskellunge", "fish_lake_kingsalmon", "fish_lake_gar"] },
             { "lake_radiant", ["fish_lake_pupfish", "fish_lake_axolotl", "fish_lake_mooneye"] },
             { "lake_alpha", ["fish_lake_alligator", "fish_lake_bullshark"] },
-            { "lake_prosperous", ["fish_lake_goldenbass", "wtrash_diamond"] },
-            { "lake_prosperous_rain", ["fish_lake_goldenbass", "wtrash_diamond", "fish_rain_leedsichthys"] },
+            { "lake_prosperous", ["fish_lake_golden_bass", "wtrash_diamond"] },
+            { "lake_prosperous_rain", ["fish_lake_golden_bass", "wtrash_diamond", "fish_rain_leedsichthys"] },
             
             // Ocean fish
             { "ocean_travelers", ["fish_ocean_atlantic_salmon", "fish_ocean_herring", "fish_ocean_flounder", "fish_ocean_clownfish", "fish_ocean_shrimp", "fish_ocean_angelfish", "fish_ocean_grouper"] },
@@ -42,8 +42,8 @@ public class LootTableGenerationPatch : IScriptMod
             { "ocean_glistening", ["fish_ocean_sea_turtle", "fish_ocean_squid", "fish_ocean_manowar", "fish_ocean_manta_ray"] }, 
             { "ocean_radiant", ["fish_ocean_greatwhiteshark"] },
             { "ocean_alpha", ["fish_ocean_whale", "fish_ocean_coalacanth"] },
-            { "ocean_propserous", ["fish_ocean_golden_manta_ray", "wtrash_diamond"] },
-            { "ocean_propserous_rain", ["fish_ocean_golden_manta_ray", "wtrash_diamond", "fish_rain_leedsichthys"] },
+            { "ocean_prosperous", ["fish_ocean_golden_manta_ray", "wtrash_diamond"] },
+            { "ocean_prosperous_rain", ["fish_ocean_golden_manta_ray", "wtrash_diamond", "fish_rain_leedsichthys"] },
         };
 
         var newlineConsumer = new TokenConsumer(t => t.Type is TokenType.Newline);
