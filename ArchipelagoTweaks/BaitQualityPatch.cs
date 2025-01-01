@@ -212,6 +212,37 @@ public class BaitQualityPatch : IScriptMod
                 yield return new Token(TokenType.Comma);
                 yield return new Token(TokenType.Newline);
                 
+                // "gildedworm": {"catch": 0.06, "max_tier": 2, "quality": [1.0, 0.99, 0.85, 0.75, 0.55, 0.12]},
+                yield return new ConstantToken(new StringVariant("gildedworm"));
+                yield return new Token(TokenType.Colon);
+                yield return new Token(TokenType.CurlyBracketOpen);
+                yield return new ConstantToken(new StringVariant("catch"));
+                yield return new Token(TokenType.Colon);
+                yield return new ConstantToken(new RealVariant(0.06));
+                yield return new Token(TokenType.Comma);
+                yield return new ConstantToken(new StringVariant("max_tier"));
+                yield return new Token(TokenType.Colon);
+                yield return new ConstantToken(new IntVariant(2));
+                yield return new Token(TokenType.Comma);
+                yield return new ConstantToken(new StringVariant("quality"));
+                yield return new Token(TokenType.Colon);
+                yield return new Token(TokenType.BracketOpen);
+                yield return new ConstantToken(new RealVariant(1.0));
+                yield return new Token(TokenType.Comma);
+                yield return new ConstantToken(new RealVariant(0.99));
+                yield return new Token(TokenType.Comma);
+                yield return new ConstantToken(new RealVariant(0.85));
+                yield return new Token(TokenType.Comma);
+                yield return new ConstantToken(new RealVariant(0.75));
+                yield return new Token(TokenType.Comma);
+                yield return new ConstantToken(new RealVariant(0.55));
+                yield return new Token(TokenType.Comma);
+                yield return new ConstantToken(new RealVariant(0.12));
+                yield return new Token(TokenType.BracketClose);
+                yield return new Token(TokenType.CurlyBracketClose);
+                yield return new Token(TokenType.Comma);
+                yield return new Token(TokenType.Newline);
+                
                 yield return new Token(TokenType.CurlyBracketClose);
                 yield return new Token (TokenType.Newline);
                 
