@@ -60,7 +60,7 @@ The fish available to catch are now dependant on the rod you are using
 - Octopus
 - Sting Ray
 
-### Opulent Collector's Fishing Rod
+### Glistening Collector's Fishing Rod
 - Leech
 - Toad
 - Turtle
@@ -68,7 +68,7 @@ The fish available to catch are now dependant on the rod you are using
 - Sawfish
 - Wolffish
 
-### Glistening Collector's Fishing Rod
+### Opulent Collector's Fishing Rod
 - Gar
 - King Salmon
 - Muskellunge
