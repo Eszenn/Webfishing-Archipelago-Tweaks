@@ -17,6 +17,8 @@ public class Mod : IMod {
         modInterface.RegisterScriptMod(new ItemPricePatch());
         modInterface.RegisterScriptMod(new CosmeticIconPatch());
         modInterface.RegisterScriptMod(new JournalRequirementPatch());
+        modInterface.RegisterScriptMod(new BuddyLootTablePatch());
+        modInterface.RegisterScriptMod(new EquippedRodPatch());
     }
 
     public void Dispose() {

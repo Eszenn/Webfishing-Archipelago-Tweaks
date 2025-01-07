@@ -11,17 +11,7 @@ public class RodLootTablePatch : IScriptMod
     public IEnumerable<Token> Modify(string path, IEnumerable<Token> tokens)
     {
         var newlineConsumer = new TokenConsumer(t => t.Type is TokenType.Newline);
-
         var rollsConsumer = new TokenConsumer(t => t is IdentifierToken { Name: "rolls" });
-
-        // Wait for enum STATES{*}\n
-        var enumWaiter = new MultiTokenWaiter([
-            t => t.Type is TokenType.PrEnum,
-            t => t is IdentifierToken { Name: "STATES"},
-            t => t.Type is TokenType.CurlyBracketOpen,
-            t => t.Type is TokenType.CurlyBracketClose,
-            t => t.Type is TokenType.Newline
-        ], allowPartialMatch: true);
 
         // Wait for if new.empty() or held_item == new: return
         var heldItemWaiter = new MultiTokenWaiter([
@@ -71,48 +61,6 @@ public class RodLootTablePatch : IScriptMod
                 rollsConsumer.Reset();
             }
             
-            else if (enumWaiter.Check(token))
-            {
-                yield return token;
-                
-                // enum ROD{SIMPLE, TRAVELERS, COLLECTORS, SHINING, GLISTENING, OPULENT, RADIANT, ALPHA, SPECTRAL, PROSPEROUS}\n
-                yield return new Token(TokenType.PrEnum);
-                yield return new IdentifierToken("ROD");
-                yield return new Token(TokenType.CurlyBracketOpen);
-                yield return new IdentifierToken("SIMPLE");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("TRAVELERS");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("COLLECTORS");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("SHINING");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("GLISTENING");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("GLISTENING");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("OPULENT");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("RADIANT");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("ALPHA");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("SPECTRAL");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("PROSPEROUS");
-                yield return new Token(TokenType.CurlyBracketClose);
-                yield return new Token(TokenType.Newline);
-                
-                // var equipped_rod = ROD.SIMPLE\n
-                yield return new Token(TokenType.PrVar);
-                yield return new IdentifierToken("equipped_rod");
-                yield return new Token(TokenType.OpAssign);
-                yield return new IdentifierToken("ROD");
-                yield return new Token(TokenType.Period);
-                yield return new IdentifierToken("SIMPLE");
-                yield return new Token(TokenType.Newline);
-            }
-            
             else if (heldItemWaiter.Check(token))
             {
                 yield return token;
@@ -140,102 +88,142 @@ public class RodLootTablePatch : IScriptMod
                 yield return new Token(TokenType.Colon);
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_simple": equipped_rod = ROD.SIMPLE
+                // "fishing_rod_simple": equipped_rod = PlayerData.ROD.SIMPLE
                 yield return new ConstantToken(new StringVariant("fishing_rod_simple"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("SIMPLE");
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_travelers": equipped_rod = ROD.TRAVELERS
+                // "fishing_rod_travelers": equipped_rod = PlayerData.ROD.TRAVELERS
                 yield return new ConstantToken(new StringVariant("fishing_rod_travelers"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("TRAVELERS");
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_collectors": equipped_rod = ROD.COLLECTORS
+                // "fishing_rod_collectors": equipped_rod = PlayerData.ROD.COLLECTORS
                 yield return new ConstantToken(new StringVariant("fishing_rod_collectors"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("COLLECTORS");
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_collectors_shining": equipped_rod = ROD.SHINING
+                // "fishing_rod_collectors_shining": equipped_rod = PlayerData.ROD.SHINING
                 yield return new ConstantToken(new StringVariant("fishing_rod_collectors_shining"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("SHINING");
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_collectors_opulent": equipped_rod = ROD.OPULENT
+                // "fishing_rod_collectors_opulent": equipped_rod = PlayerData.ROD.OPULENT
                 yield return new ConstantToken(new StringVariant("fishing_rod_collectors_opulent"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("OPULENT");
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_collectors_glistening": equipped_rod = ROD.GLISTENING
+                // "fishing_rod_collectors_glistening": equipped_rod = PlayerData.ROD.GLISTENING
                 yield return new ConstantToken(new StringVariant("fishing_rod_collectors_glistening"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("GLISTENING");
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_collectors_radiant": equipped_rod = ROD.RADIANT
+                // "fishing_rod_collectors_radiant": equipped_rod = PlayerData.ROD.RADIANT
                 yield return new ConstantToken(new StringVariant("fishing_rod_collectors_radiant"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("RADIANT");
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_collectors_alpha": equipped_rod = ROD.ALPHA
+                // "fishing_rod_collectors_alpha": equipped_rod = PlayerData.ROD.ALPHA
                 yield return new ConstantToken(new StringVariant("fishing_rod_collectors_alpha"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ALPHA");
                 yield return new Token(TokenType.Newline, 2);
                 
-                // "fishing_rod_prosperous": equipped_rod = ROD.PROSPEROUS
+                // "fishing_rod_prosperous": equipped_rod = PlayerData.ROD.PROSPEROUS
                 yield return new ConstantToken(new StringVariant("fishing_rod_prosperous"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("PROSPEROUS");
                 yield return new Token(TokenType.Newline, 2);
                 
                 
-                // "fishing_rod_skeleton": equipped_rod = ROD.SPECTRAL
+                // "fishing_rod_skeleton": equipped_rod = PlayerData.ROD.SPECTRAL
                 yield return new ConstantToken(new StringVariant("fishing_rod_skeleton"));
                 yield return new Token(TokenType.Colon);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("SPECTRAL");
@@ -261,13 +249,17 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("trash"));
                 yield return new Token(TokenType.Newline, 1);
                 
-                // match equipped_rod:
+                // match PlayerData.equipped_rod:
                 yield return new Token(TokenType.CfMatch);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("equipped_rod");
                 yield return new Token(TokenType.Colon);
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.SIMPLE: table = "trash"
+                // PlayerData.ROD.SIMPLE: table = "trash"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("SIMPLE");
@@ -277,7 +269,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("trash"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.TRAVELERS: table = "travelers"
+                // PlayerData.ROD.TRAVELERS: table = "travelers"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("TRAVELERS");
@@ -287,7 +281,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("travelers"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.COLLECTORS: table = "collectors"
+                // PlayerData.ROD.COLLECTORS: table = "collectors"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("COLLECTORS");
@@ -297,7 +293,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("collectors"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.SHINING: table = "shining"
+                // PlayerData.ROD.SHINING: table = "shining"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("SHINING");
@@ -307,7 +305,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("shining"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.OPULENT: table = "opulent"
+                // PlayerData.ROD.OPULENT: table = "opulent"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("OPULENT");
@@ -317,7 +317,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("opulent"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.GLISTENING: table = "glistening"
+                // PlayerData.ROD.GLISTENING: table = "glistening"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("GLISTENING");
@@ -327,7 +329,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("glistening"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.RADIANT: table = "radiant"
+                // PlayerData.ROD.RADIANT: table = "radiant"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("RADIANT");
@@ -337,7 +341,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("radiant"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.ALPHA: table = "alpha"
+                // PlayerData.ROD.ALPHA: table = "alpha"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ALPHA");
@@ -347,7 +353,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("alpha"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.SPECTRAL: table = "spectral"
+                // PlayerData.ROD.SPECTRAL: table = "spectral"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("SPECTRAL");
@@ -357,7 +365,9 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new StringVariant("spectral"));
                 yield return new Token(TokenType.Newline, 2);
                 
-                // ROD.PROSPEROUS: table = "prosperous"
+                // PlayerData.ROD.PROSPEROUS: table = "prosperous"
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("PROSPEROUS");
