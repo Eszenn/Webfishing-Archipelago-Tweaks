@@ -486,6 +486,27 @@ public class RodLootTablePatch : IScriptMod
                 yield return new ConstantToken(new BoolVariant(true));
                 yield return new Token(TokenType.Newline, 1);
                 
+                // if in_rain and table == "prosperous":
+                yield return new Token(TokenType.CfIf);
+                yield return new IdentifierToken("in_rain");
+                yield return new Token(TokenType.OpAnd);
+                yield return new IdentifierToken("table");
+                yield return new Token(TokenType.OpEqual);
+                yield return new ConstantToken(new StringVariant("prosperous"));
+                yield return new Token(TokenType.Colon);
+                yield return new Token(TokenType.Newline, 2);
+                
+                // table = str(table, "_", "rain")
+                yield return new IdentifierToken("table");
+                yield return new Token(TokenType.OpAssign);
+                yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextStr);
+                yield return new Token(TokenType.ParenthesisOpen);
+                yield return new IdentifierToken("table");
+                yield return new Token(TokenType.Comma);
+                yield return new ConstantToken(new StringVariant("_rain"));
+                yield return new Token(TokenType.ParenthesisClose);
+                yield return new Token(TokenType.Newline, 1);
+                
                 // fish_type = str(zone, "_", table)
                 yield return new IdentifierToken("fish_type");
                 yield return new Token(TokenType.OpAssign);
