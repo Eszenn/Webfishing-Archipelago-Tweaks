@@ -13,20 +13,14 @@ public class RodLootTablePatch : IScriptMod
         var newlineConsumer = new TokenConsumer(t => t.Type is TokenType.Newline);
         var rollsConsumer = new TokenConsumer(t => t is IdentifierToken { Name: "rolls" });
 
-        // Wait for if new.empty() or held_item == new: return
+        // Wait for item_data = PlayerData.FALLBACK_ITEM
         var heldItemWaiter = new MultiTokenWaiter([
-            t => t.Type is TokenType.CfIf,
-            t=> t is IdentifierToken { Name: "new"},
-            t=> t.Type is TokenType.Period,
-            t => t is IdentifierToken { Name:"empty"},
-            t => t.Type is TokenType.ParenthesisOpen,
-            t => t.Type is TokenType.ParenthesisClose,
-            t => t.Type is TokenType.OpOr,
-            t => t is IdentifierToken { Name:"held_item"},
-            t => t.Type is TokenType.OpEqual,
-            t => t is IdentifierToken { Name:"new"},
-            t=> t.Type is TokenType.Colon,
-            t => t.Type is TokenType.CfReturn
+            t => t is IdentifierToken { Name: "item_data" },
+            t => t.Type is TokenType.OpAssign,
+            t => t is IdentifierToken { Name: "PlayerData" },
+            t => t.Type is TokenType.Period,
+            t => t is IdentifierToken { Name: "FALLBACK_ITEM" },
+            t => t.Type is TokenType.Newline
         ], allowPartialMatch: true);
 
         var fishTypeWaiter = new MultiTokenWaiter([
@@ -64,24 +58,22 @@ public class RodLootTablePatch : IScriptMod
             else if (heldItemWaiter.Check(token))
             {
                 yield return token;
-                yield return new Token(TokenType.Newline, 1);
                 
-                /* print("Equipped item with id: " + new["id"])
+                // print("Equipped item with id: " + item_data["id"])
                 yield return new Token(TokenType.BuiltInFunc, (uint?) BuiltinFunction.TextPrint);
                 yield return new Token(TokenType.ParenthesisOpen);
                 yield return new ConstantToken(new StringVariant("Equipped item with id: "));
                 yield return new Token(TokenType.OpAdd);
-                yield return new IdentifierToken("new");
+                yield return new IdentifierToken("item_data");
                 yield return new Token(TokenType.BracketOpen);
                 yield return new ConstantToken(new StringVariant("id"));
                 yield return new Token(TokenType.BracketClose);
                 yield return new Token(TokenType.ParenthesisClose);
                 yield return new Token(TokenType.Newline, 1);
-                */
                 
-                // match new["id"]:
+                // match item_data["id"]:
                 yield return new Token(TokenType.CfMatch);
-                yield return new IdentifierToken("new");
+                yield return new IdentifierToken("item_data");
                 yield return new Token(TokenType.BracketOpen);
                 yield return new ConstantToken(new StringVariant("id"));
                 yield return new Token(TokenType.BracketClose);
@@ -227,6 +219,17 @@ public class RodLootTablePatch : IScriptMod
                 yield return new IdentifierToken("ROD");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("SPECTRAL");
+                yield return new Token(TokenType.Newline, 1);
+                
+                // print("Equipped Rod: ", PlayerData.equipped_rod)
+                yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrint);
+                yield return new Token(TokenType.ParenthesisOpen);
+                yield return new ConstantToken(new StringVariant("Equipped Rod: "));
+                yield return new Token(TokenType.Comma);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
+                yield return new IdentifierToken("equipped_rod");
+                yield return new Token(TokenType.ParenthesisClose);
                 yield return new Token(TokenType.Newline, 1);
             }
             
